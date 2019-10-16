@@ -1,0 +1,82 @@
+package com.lambdaschool.school.controller;
+
+import com.lambdaschool.school.model.Course;
+import com.lambdaschool.school.model.Instructor;
+import com.lambdaschool.school.model.Student;
+import com.lambdaschool.school.service.CourseService;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(value = CourseController.class, secure = false)
+public class CourseControllerTest
+{
+  @Autowired
+  private MockMvc mockMvc;
+
+  @MockBean
+  private CourseService courseService;
+
+  private List<Course> courseList;
+
+  @Before
+  public void setUp()
+  {
+    courseList = new ArrayList<>();
+
+    Instructor i1 = new Instructor("Sally");
+    i1.setInstructid(1);
+
+    Student s1 = new Student("John");
+    s1.setStudid(1);
+    Student s2 = new Student("Julian");
+    s1.setStudid(2);
+    Student s3 = new Student("Mary");
+    s1.setStudid(3);
+
+    Course c1 = new Course("Data Science");
+    c1.setCourseid(1);
+    c1.setInstructor(i1);
+    c1.getStudents().add(s1);
+    c1.getStudents().add(s3);
+
+    courseList.add(c1);
+
+    Course c2 = new Course("JavaScript");
+    c2.setCourseid(2);
+    c2.setInstructor(i1);
+    c2.getStudents().add(s2);
+
+    courseList.add(c2);
+
+    Course c3 = new Course("Node.js");
+    c3.setCourseid(3);
+    c3.setInstructor(i1);
+    c3.getStudents().add(s3);
+
+    courseList.add(c3);
+  }
+
+  @After
+  public void tearDown()
+  {
+
+  }
+
+  @Test
+  public void listAllCourses()
+  {
+  }
+}
