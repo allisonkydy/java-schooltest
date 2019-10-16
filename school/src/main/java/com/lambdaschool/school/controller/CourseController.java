@@ -36,13 +36,22 @@ public class CourseController
                                              value = "Sorting criteria in the format: property(,asc|desc). " +
                                                  "Default sort order is ascending. " +
                                                  "Multiple sort criteria are supported.")})
+//    @GetMapping(value = "/courses", produces = {"application/json"})
+//    public ResponseEntity<?> listAllCourses(HttpServletRequest request, @PageableDefault(page = 0, size = 3)
+//        Pageable pageable)
+//    {
+//        logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed!");
+//
+//        ArrayList<Course> myCourses = courseService.findAll(pageable);
+//        return new ResponseEntity<>(myCourses, HttpStatus.OK);
+//    }
+
     @GetMapping(value = "/courses", produces = {"application/json"})
-    public ResponseEntity<?> listAllCourses(HttpServletRequest request, @PageableDefault(page = 0, size = 3)
-        Pageable pageable)
+    public ResponseEntity<?> listAllCourses(HttpServletRequest request)
     {
         logger.info(request.getMethod() + " " + request.getRequestURI() + " just accessed!");
 
-        ArrayList<Course> myCourses = courseService.findAll(pageable);
+        ArrayList<Course> myCourses = courseService.findAll();
         return new ResponseEntity<>(myCourses, HttpStatus.OK);
     }
 

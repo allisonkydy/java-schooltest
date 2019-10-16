@@ -1,5 +1,6 @@
 package com.lambdaschool.school.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lambdaschool.school.model.Course;
 import com.lambdaschool.school.model.Instructor;
 import com.lambdaschool.school.model.Student;
@@ -8,11 +9,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +35,7 @@ public class CourseControllerTest
   @MockBean
   private CourseService courseService;
 
-  private List<Course> courseList;
+  private ArrayList<Course> courseList;
 
   @Before
   public void setUp()
@@ -76,7 +82,20 @@ public class CourseControllerTest
   }
 
   @Test
-  public void listAllCourses()
+  public void listAllCourses() throws Exception
   {
+    String apiUrl = "/courses/courses";
+
+    Mockito.when(courseService.findAll()).thenReturn(courseList);
+
+    RequestBuilder rb = MockMvcRequestBuilders.get(apiUrl).accept(MediaType.APPLICATION_JSON);
+
+    MvcResult mvcResult = mockMvc.perform(rb).andReturn();
+    String testResult = mvcResult.getResponse().getContentAsString();
+
+    ObjectMapper mapper = new ObjectMapper();
+    String expectedResult = mapper.writeValueAsString(courseList);
+
+    assertEquals(expectedResult, testResult);
   }
 }
