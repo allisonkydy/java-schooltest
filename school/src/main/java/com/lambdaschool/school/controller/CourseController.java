@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 @RestController
@@ -77,5 +78,14 @@ public class CourseController
 
         courseService.delete(courseid);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/course/add",
+                 consumes = {"application/json"})
+    public ResponseEntity<?> addNewCourse(@Valid
+                                          @RequestBody Course course)
+    {
+        courseService.save(course);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
