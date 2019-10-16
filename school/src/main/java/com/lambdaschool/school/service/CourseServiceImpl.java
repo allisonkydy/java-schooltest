@@ -19,6 +19,14 @@ public class CourseServiceImpl implements CourseService
     private CourseRepository courserepos;
 
     @Override
+    public ArrayList<Course> findAll()
+    {
+        ArrayList<Course> list = new ArrayList<>();
+        courserepos.findAll().iterator().forEachRemaining(list::add);
+        return list;
+    }
+
+    @Override
     public ArrayList<Course> findAll(Pageable pageable)
     {
         ArrayList<Course> list = new ArrayList<>();

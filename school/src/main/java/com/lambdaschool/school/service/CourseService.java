@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public interface CourseService
 {
+    ArrayList<Course> findAll();
+
     ArrayList<Course> findAll(Pageable pageable);
 
     ArrayList<CountStudentsInCourses> getCountStudentsInCourse();
