@@ -45,4 +45,11 @@ public class CourseServiceImpl implements CourseService
             throw new ResourceNotFoundException(Long.toString(id));
         }
     }
+
+    @Override
+    public Course findCourseById(long id) throws ResourceNotFoundException
+    {
+        Course course = courserepos.findById(id).orElseThrow(() -> new ResourceNotFoundException(Long.toString(id)));
+        return course;
+    }
 }
