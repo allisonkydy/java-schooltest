@@ -1,12 +1,13 @@
 package com.lambdaschool.school.service;
 
 import com.lambdaschool.school.model.Student;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface StudentService
 {
-    List<Student> findAll();
+    List<Student> findAll(Pageable pageable);
 
     Student findStudentById(long id);
 
@@ -17,4 +18,6 @@ public interface StudentService
     Student save (Student student);
 
     Student update(Student student, long id);
+
+    Student addStudentToCourse(long studentid, long courseid);
 }
