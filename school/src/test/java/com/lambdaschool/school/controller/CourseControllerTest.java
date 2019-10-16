@@ -19,11 +19,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = CourseController.class, secure = false)
@@ -97,5 +100,29 @@ public class CourseControllerTest
     String expectedResult = mapper.writeValueAsString(courseList);
 
     assertEquals(expectedResult, testResult);
+  }
+
+
+  @Test
+  public void addNewCourse() throws Exception
+  {
+    String apiUrl = "/courses/course/add";
+
+    Instructor i1 = new Instructor();
+    i1.setInstructid(1);
+
+    Course c1 = new Course("Test Course");
+    c1.setInstructor(i1);
+
+    Mockito.when(courseService.save(any(Course.class))).thenReturn(c1);
+
+    ObjectMapper mapper = new ObjectMapper();
+    String expectedResult = mapper.writeValueAsString(c1);
+
+    RequestBuilder rb = MockMvcRequestBuilders.post(apiUrl)
+        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+        .content(expectedResult);
+
+    mockMvc.perform(rb).andExpect(status().isCreated()).andDo(MockMvcResultHandlers.print());
   }
 }
